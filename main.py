@@ -7,15 +7,17 @@ city_name.replace(" ", "+")
 
 r = t.Turtle()
 icon_t = t.Turtle()
-# t.speed(0)
+t.speed(0)
 s = t.Screen()
 
 
 def draw_icon_helper(image_file_name):
-  subsampled_image = PhotoImage(file=image_file_name).subsample(4)
+  subsampled_image = PhotoImage(file="./assets/"+image_file_name).subsample(4)
   s.addshape(image_file_name, t.Shape("image", subsampled_image))
 
 def get_icon(main):
+  image_file_name = 'atmosphere.gif'
+  t.fillcolor('mistyrose')
   if main == "Thunderstorm":
     image_file_name = 'thunderstorm.gif'
     t.fillcolor('royalblue')
@@ -34,11 +36,8 @@ def get_icon(main):
   elif main == "Clouds":
     image_file_name = 'cloud.gif'
     t.fillcolor('gainsboro')
-  image_file_name = 'atmosphere.gif'
-  t.fillcolor('mistyrose')
   return image_file_name
   
-
 def draw_icon(image_file_name):
   t.penup()
   t.goto(-240, 100)
@@ -50,15 +49,13 @@ def draw_icon(image_file_name):
     t.fd(250)
     t.rt(90)
   t.end_fill()
-  
   t.penup()
   t.goto(150, 30)
   t.pendown()
-
   draw_icon_helper(image_file_name)
   t.shape(image_file_name)
 
-  
+
 def call_api(city_name):
   api_key = '7905fccc7e98ec3204624ffa811414aa'
   base_url = 'https://api.openweathermap.org/data/2.5/weather?'
@@ -66,8 +63,6 @@ def call_api(city_name):
   data = requests.get(complete_url).json()
   return data
 
-
-# return an array --> [temperature, temp_min, temp_max]
 def get_temperature(data):
   k_temp = data['main']['temp']
   f_temp = 1.8 * (k_temp - 273) + 32
@@ -79,9 +74,6 @@ def get_temperature(data):
 
 
 def draw_widget():
-  # t.fillcolor('lightblue')
-
-  # t.goto(100, 100)
   data = call_api(city_name)
   main = data['weather'][0]['main']
   temps = get_temperature(data)
@@ -90,7 +82,6 @@ def draw_widget():
   image_file_name = get_icon(main)
   draw_icon(image_file_name)
   
-
   r.penup()
   r.goto(-220, -20)
   r.pendown()
@@ -102,7 +93,7 @@ def draw_widget():
   r.goto(-220, -120)
   r.pendown()
   r.write("L:" + str(temps[1]) + "°F" + "\t  H:" + str(temps[2]) + "°F",
-          font=("Arial", 20, 'normal'))
+  font=("Arial", 20, 'normal'))
   r.penup()
   r.goto(-220, -60)
   r.pendown()
@@ -110,6 +101,5 @@ def draw_widget():
 
   s.mainloop()
 
-
 draw_widget()
-# get_temperature()
+
