@@ -10,7 +10,6 @@ icon_t = t.Turtle()
 t.speed(0)
 s = t.Screen()
 
-
 def draw_icon_helper(image_file_name):
   subsampled_image = PhotoImage(file="./assets/"+image_file_name).subsample(4)
   s.addshape(image_file_name, t.Shape("image", subsampled_image))
@@ -71,8 +70,6 @@ def get_temperature(data):
   temp_max = (data['main']['temp_max'] - 273) * 1.8 + 32
   return [new_f, round(temp_min, 2), round(temp_max, 2)]
 
-
-
 def draw_widget():
   data = call_api(city_name)
   main = data['weather'][0]['main']
@@ -102,4 +99,3 @@ def draw_widget():
   s.mainloop()
 
 draw_widget()
-
